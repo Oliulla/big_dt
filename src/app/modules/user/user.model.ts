@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import IUser from "./user.interface";
 
 const userSchema: Schema = new Schema({
-  user_id: { type: String },
+  user_id: { type: String, required: true, unique: true, maxlength: 22 },
   name: { type: String, required: true },
   review_count: { type: Number, required: true },
   yelping_since: { type: String, required: true },
