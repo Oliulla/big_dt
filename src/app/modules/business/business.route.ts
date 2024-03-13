@@ -1,8 +1,8 @@
 import express from "express";
-// import { UserControllers } from "./user.controller";
+import { BusinessControllers } from "./business.controller";
 
 const router = express.Router();
 
-// router.post("/", UserControllers.createUser);
+router.post("/", BusinessControllers.createBusiness);
 
 export const BusinessRoutes = router;

@@ -12,10 +12,10 @@ const createBusiness: RequestHandler = catchAsync(
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "User created successfully!",
+      message: "Request success!",
       data: result,
     });
   }
 );
 
-export const UserControllers = { createBusiness };
+export const BusinessControllers = { createBusiness };
