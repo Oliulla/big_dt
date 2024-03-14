@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post("/", BusinessControllers.createBusiness);
 
+router.post("/nearby-merchants", BusinessControllers.findNearbyMerchants);
+
 export const BusinessRoutes = router;

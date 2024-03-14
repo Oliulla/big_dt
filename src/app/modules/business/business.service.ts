@@ -2,6 +2,8 @@ import generateUserId from "../../../helpers/generateUUID";
 import IBusiness from "./business.interface";
 import BusinessModel from "./business.model";
 
+const EARTH_RADIUS_KM = 6371;
+
 export async function createBusiness(businessData: IBusiness) {
   const business_id = generateUserId();
 
@@ -20,6 +22,84 @@ export async function createBusiness(businessData: IBusiness) {
   }
 }
 
+export async function findNearbyMerchants(
+  userLatitude: number,
+  userLongitude: number,
+  maxDistance: number
+): Promise<IBusiness[]> {
+  try {
+    const allBusinesses = await BusinessModel.find(
+      {},
+      {
+        _id: 0,
+        business_id: 1,
+        name: 1,
+        latitude: 1,
+        longitude: 1,
+      }
+    );
+
+    const nearbyMerchants: IBusiness[] = [];
+    let minDistance = Infinity;
+
+    allBusinesses.forEach((business: any) => {
+      const businessLatitude = business.latitude;
+      const businessLongitude = business.longitude;
+
+      const distance = calculateDistance(
+        userLatitude,
+        userLongitude,
+        businessLatitude,
+        businessLongitude
+      );
+
+      if (distance <= maxDistance) {
+        if (distance < minDistance) {
+          nearbyMerchants.length = 0;
+          minDistance = distance;
+        }
+
+        nearbyMerchants.push({
+          business_id: business.business_id,
+          name: business.name,
+          latitude: businessLatitude,
+          longitude: businessLongitude,
+        } as IBusiness);
+      }
+    });
+
+    return nearbyMerchants;
+  } catch (error) {
+    throw error;
+  }
+}
+
+function calculateDistance(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number {
+  const dLat = degreesToRadians(lat2 - lat1);
+  const dLon = degreesToRadians(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(degreesToRadians(lat1)) *
+      Math.cos(degreesToRadians(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const distance = EARTH_RADIUS_KM * c;
+  return distance;
+}
+
+function degreesToRadians(degrees: number): number {
+  return degrees * (Math.PI / 180);
+}
+
 export const BusinessServices = {
   createBusiness,
+  findNearbyMerchants,
 };

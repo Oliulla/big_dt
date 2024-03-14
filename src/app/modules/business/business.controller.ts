@@ -12,10 +12,32 @@ const createBusiness: RequestHandler = catchAsync(
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: "Request success!",
+      message: "Business created successfully!",
       data: result,
     });
   }
 );
 
-export const BusinessControllers = { createBusiness };
+const findNearbyMerchants: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { latitude, longitude, maxDistance } = req.body;
+
+    const nearbyMerchants = await BusinessServices.findNearbyMerchants(
+      latitude,
+      longitude,
+      maxDistance
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Nearby merchants retrieved successfully!",
+      data: nearbyMerchants,
+    });
+  }
+);
+
+export const BusinessControllers = {
+  createBusiness,
+  findNearbyMerchants,
+};
