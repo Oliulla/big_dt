@@ -99,7 +99,20 @@ function degreesToRadians(degrees: number): number {
   return degrees * (Math.PI / 180);
 }
 
+export async function getMerchantDetails(
+  business_id: string
+): Promise<IBusiness | null> {
+  try {
+    const merchantDetails = await BusinessModel.findOne({ business_id });
+
+    return merchantDetails;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export const BusinessServices = {
   createBusiness,
   findNearbyMerchants,
+  getMerchantDetails,
 };

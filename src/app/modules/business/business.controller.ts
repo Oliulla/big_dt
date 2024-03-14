@@ -37,7 +37,25 @@ const findNearbyMerchants: RequestHandler = catchAsync(
   }
 );
 
+const getMerchantDetails: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { business_id } = req.params;
+
+    const merchantDetails = await BusinessServices.getMerchantDetails(
+      business_id
+    );
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Merchant details retrieved successfully",
+      data: merchantDetails,
+    });
+  }
+);
+
 export const BusinessControllers = {
   createBusiness,
   findNearbyMerchants,
+  getMerchantDetails,
 };
