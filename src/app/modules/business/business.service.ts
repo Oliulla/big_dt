@@ -25,7 +25,8 @@ export async function createBusiness(businessData: IBusiness) {
 export async function findNearbyMerchants(
   userLatitude: number,
   userLongitude: number,
-  maxDistance: number
+  maxDistance: number,
+  sortBy: string | undefined
 ): Promise<IBusiness[]> {
   try {
     const allBusinesses = await BusinessModel.find(
@@ -36,6 +37,8 @@ export async function findNearbyMerchants(
         name: 1,
         latitude: 1,
         longitude: 1,
+        review_count: 1,
+        stars: 1,
       }
     );
 
@@ -54,19 +57,22 @@ export async function findNearbyMerchants(
       );
 
       if (distance <= maxDistance) {
-        // if (distance < minDistance) {
-        //   nearbyMerchants.length = 0;
-        //   minDistance = distance;
-        // }
-
         nearbyMerchants.push({
           business_id: business.business_id,
           name: business.name,
           latitude: businessLatitude,
           longitude: businessLongitude,
+          review_count: business.review_count,
+          stars: business.stars,
         } as IBusiness);
       }
     });
+
+    if (sortBy === "review_recommendations") {
+      nearbyMerchants.sort((a, b) => b.review_count - a.review_count);
+    } else if (sortBy === "ratings") {
+      nearbyMerchants.sort((a, b) => b.stars - a.stars);
+    }
 
     return nearbyMerchants;
   } catch (error) {

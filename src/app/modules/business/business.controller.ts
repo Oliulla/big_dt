@@ -20,12 +20,14 @@ const createBusiness: RequestHandler = catchAsync(
 
 const findNearbyMerchants: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
+    const sortBy: string | undefined = req.query.sortBy as string | undefined;
     const { latitude, longitude, maxDistance } = req.body;
 
     const nearbyMerchants = await BusinessServices.findNearbyMerchants(
       latitude,
       longitude,
-      maxDistance
+      maxDistance,
+      sortBy
     );
 
     sendResponse(res, {
