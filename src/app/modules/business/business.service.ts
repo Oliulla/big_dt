@@ -40,7 +40,7 @@ export async function findNearbyMerchants(
     );
 
     const nearbyMerchants: IBusiness[] = [];
-    let minDistance = Infinity;
+    // let minDistance = Infinity;
 
     allBusinesses.forEach((business: any) => {
       const businessLatitude = business.latitude;
@@ -54,10 +54,10 @@ export async function findNearbyMerchants(
       );
 
       if (distance <= maxDistance) {
-        if (distance < minDistance) {
-          nearbyMerchants.length = 0;
-          minDistance = distance;
-        }
+        // if (distance < minDistance) {
+        //   nearbyMerchants.length = 0;
+        //   minDistance = distance;
+        // }
 
         nearbyMerchants.push({
           business_id: business.business_id,
