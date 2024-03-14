@@ -18,16 +18,95 @@ const createBusiness: RequestHandler = catchAsync(
   }
 );
 
+// const findNearbyMerchants: RequestHandler = catchAsync(
+//   async (req: Request, res: Response) => {
+//     const sortBy: string | undefined = req.query.sortBy as string | undefined;
+//     const { latitude, longitude, maxDistance } = req.body;
+
+//     const nearbyMerchants = await BusinessServices.findNearbyMerchants(
+//       latitude,
+//       longitude,
+//       maxDistance,
+//       sortBy
+//     );
+
+//     sendResponse(res, {
+//       statusCode: 200,
+//       success: true,
+//       message: "Nearby merchants retrieved successfully!",
+//       data: nearbyMerchants,
+//     });
+//   }
+// );
+
+// const findNearbyMerchants: RequestHandler = catchAsync(
+//   async (req: Request, res: Response) => {
+//     const sortBy: string | undefined = req.query.sortBy as string | undefined;
+//     const { latitude, longitude, maxDistance } = req.body;
+
+//     const nearbyMerchants = await BusinessServices.findNearbyMerchants(
+//       latitude,
+//       longitude,
+//       maxDistance,
+//       sortBy
+//     );
+
+//     sendResponse(res, {
+//       statusCode: 200,
+//       success: true,
+//       message: "Nearby merchants retrieved successfully!",
+//       data: nearbyMerchants,
+//     });
+//   }
+// );
+
+// const findNearbyMerchants: RequestHandler = catchAsync(
+//   async (req: Request, res: Response) => {
+//     const sortBy: string | undefined = req.query.sortBy as string | undefined;
+//     const ratingsFilter: number | undefined = req.query.ratings
+//       ? parseInt(req.query.ratings as string)
+//       : undefined;
+//     const facilitiesFilter: string | undefined = req.query.facilities as
+//       | string
+//       | undefined;
+//     const { latitude, longitude, maxDistance } = req.body;
+
+//     const nearbyMerchants = await BusinessServices.findNearbyMerchants(
+//       latitude,
+//       longitude,
+//       maxDistance,
+//       sortBy,
+//       ratingsFilter,
+//       facilitiesFilter
+//     );
+
+//     sendResponse(res, {
+//       statusCode: 200,
+//       success: true,
+//       message: "Nearby merchants retrieved successfully!",
+//       data: nearbyMerchants,
+//     });
+//   }
+// );
+
 const findNearbyMerchants: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const sortBy: string | undefined = req.query.sortBy as string | undefined;
+    const ratingsFilter: number | undefined = req.query.ratings
+      ? parseFloat(req.query.ratings as string)
+      : undefined;
+    const facilitiesFilter: string | undefined = req.query.facilities as
+      | string
+      | undefined;
     const { latitude, longitude, maxDistance } = req.body;
 
     const nearbyMerchants = await BusinessServices.findNearbyMerchants(
       latitude,
       longitude,
       maxDistance,
-      sortBy
+      sortBy,
+      ratingsFilter,
+      facilitiesFilter
     );
 
     sendResponse(res, {
