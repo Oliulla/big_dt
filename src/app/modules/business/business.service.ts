@@ -331,6 +331,7 @@ export async function findNearbyMerchants(
       _id: 0,
       business_id: 1,
       name: 1,
+      address: 1,
       latitude: 1,
       longitude: 1,
       review_count: 1,
